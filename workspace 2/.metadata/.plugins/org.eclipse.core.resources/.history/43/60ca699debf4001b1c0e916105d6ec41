@@ -1,0 +1,17 @@
+package model;
+
+public class Variant {
+	
+	public int[] VariantRKS(int[] G) {
+		//TODO: Add algorithm that reads mutation genome and, by using that data, create a r, k, s values
+		int[] RKS = new int[] {G[0], G[2], G[4]};
+		return RKS;
+	}
+	
+	public 
+
+	public static void main(String[] args) {
+		Variant VD = new Variant();
+	}
+
+}

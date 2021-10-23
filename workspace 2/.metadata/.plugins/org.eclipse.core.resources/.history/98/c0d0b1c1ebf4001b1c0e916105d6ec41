@@ -1,0 +1,14 @@
+package model;
+
+public class Simulation extends Variant {
+	
+	int[] Genome = new int[] {1, 1, 1, 1, 1, 1};
+	
+	public void Sim() {
+		
+	}
+	
+	public static void main(String[] args) {
+		
+	}
+}

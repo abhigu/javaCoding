@@ -1,0 +1,11 @@
+package model;
+
+public class Simulation extends Variant {
+	
+	int[] RKSstart = new int[] {1, 1, 1};
+	
+	public static void main(String[] args) {
+		Simulation SIM = new Simulation();
+		SIM.Print(SIM.VariantDeclaration(SIM.RKSstart));
+	}
+}

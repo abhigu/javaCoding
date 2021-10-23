@@ -1,0 +1,20 @@
+package model;
+import java.util.Random;
+
+public class Simulation extends Variant {
+	
+	int[] RKSstart = new int[] {1, 1, 1};
+	
+	public void Epidemic(int[] RKSstart) {
+		Random rnd = new Random();
+		
+			int MutationChance = rnd.nextInt(100);
+		
+		
+	}
+	
+	public static void main(String[] args) {
+		Simulation SIM = new Simulation();
+		SIM.Epidemic(SIM.RKSstart);
+	}
+}
