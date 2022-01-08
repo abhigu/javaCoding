@@ -1,0 +1,9 @@
+package Viruses;
+
+import java.util.ArrayList;
+
+public class Population {
+	static ArrayList<Node> notInfected = new ArrayList<Node> (1000); 
+	static ArrayList<Node> infected = new ArrayList<Node> (1); 
+	static ArrayList<Node> dead = new ArrayList<Node> (1); 
+}

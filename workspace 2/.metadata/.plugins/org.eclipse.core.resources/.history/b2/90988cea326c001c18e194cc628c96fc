@@ -1,0 +1,115 @@
+package Viruses;
+
+public class Simulation {
+	public void setPopulation(int pop) {
+		for(int i = 0; i < pop-1; i++) {
+			Node node = new Node();
+			Population.notInfected.add(node);
+		}
+		Node patient0 = new Node();
+		Population.infected.add(patient0);
+	}
+	
+	public void Epidemic(Varient firstVarient) {
+		int day = 1;
+		boolean done = false;
+		while (!done) {
+				
+			int maxNewInfectionPossible = (int)(Population.infected.size() * firstVarient.rate);
+			int nonInfected = Population.notInfected.size();
+			int newInfected = Math.min(maxNewInfectionPossible, nonInfected);
+				
+			if (newInfected == 0) {
+				// nobody left to infect!
+				// we done, the entire population is infected
+				done = true;
+			} else {
+				for (int i = 0; i < newInfected; i++) {
+					Population.infected.add(Population.notInfected.get(i));
+					Population.notInfected.remove(i); 
+				} 
+				
+				int newDead = (int)(Population.infected.size() * firstVarient.deathRate);
+				
+				for (int i = 0; i < newDead; i++) {
+					Population.dead.add(Population.infected.get(i));
+					Population.infected.remove(i);
+				}
+				
+				printEpidemic(newInfected, newDead, day);
+				 
+				day++;
+			}
+		}
+	}
+	
+	public void printEpidemic(int newInfected, int newDead, int day) {
+		System.out.println("Day: " + day);
+		System.out.println("");
+		System.out.println("New Infected: " + newInfected);
+		System.out.println("New Dead: " + newDead);
+		System.out.println("");
+		System.out.println("Total Infected:" + Population.infected.size());
+		System.out.println("Total Dead:" + Population.dead.size());
+		System.out.println("--------------------------------");
+	}
+	
+	public static void main(String[] args) {
+		Simulation simulation = new Simulation();
+		Varient varient = new Varient(5, 0.05, 0.95, 5);
+		
+		simulation.setPopulation(1329);
+		simulation.Epidemic(varient);
+		
+		//bug where if population is less than 1330, it will say that everyone has died by day 4 instead of day 5
+		
+	}
+	
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*	
+public Varient nextVarient(Varient varient) {
+	Varient nextVarient = varient.mutation();
+	return nextVarient;
+}
+
+public Node[][] createPopulation(int popx, int popy){
+	Node[][] population = new Node[popy][popx];
+	return population;
+}
+	
+*/	
+
+/*
+public Varient firstVarient(Varient varient) {
+	varient.rate = 5;
+	varient.deathRate = 0.05;
+	varient.stability = 0.95;
+	varient.incubation = 5;
+	return varient;
+}
+*/
