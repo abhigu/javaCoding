@@ -1,12 +1,21 @@
 package Viruses;
 
 public class Simulation {
-	Population population;
+	Population population = new Population();
 	
 	public Simulation(Population population) {
 		this.population = population;
 	}
-
+	
+	public void setPopulation(int pop) {
+		for(int i = 0; i < pop-1; i++) {
+			Node node = new Node();
+			population.notInfected.add(node);
+		}
+		Node patient0 = new Node(); 
+		population.infected.add(patient0);
+	}
+	
 	public void epidemic(Varient firstVarient, boolean wantdailyprint) {
 		int day = 1;
 		boolean done = false;
@@ -61,12 +70,13 @@ public class Simulation {
 	}
 	
 	public static void main(String[] args) {
-		Population population = new Population(1329);
+		Population population = new Population();
 		Simulation simulation = new Simulation(population);
 		Varient varient = new Varient(5, 0.05, 0.95, 5);
 		
-		simulation.epidemicAll(varient);
+		simulation.setPopulation(1329);
 	}
+	
 }
 
 

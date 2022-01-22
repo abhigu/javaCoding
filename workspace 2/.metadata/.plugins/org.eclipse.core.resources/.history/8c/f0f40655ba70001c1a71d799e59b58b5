@@ -1,7 +1,8 @@
 package Viruses;
 
 public class Node {
-	Varient varient;
+	Varient infection; 
+	boolean isDead;
 	int id;
 	int density;
 }

@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Population {
-	Node patient0 = new Node(); 
-	
 	List<Node> notInfected = new ArrayList<Node>(); 
 	List<Node> infected = new ArrayList<Node>(); 
 	List<Node> dead = new ArrayList<Node>(); 
@@ -15,6 +13,7 @@ public class Population {
 			Node node = new Node();
 			this.notInfected.add(node);
 		}
+		Node patient0 = new Node(); 
 		this.infected.add(patient0);
 	}
 	
