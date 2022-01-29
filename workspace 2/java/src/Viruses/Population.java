@@ -17,5 +17,13 @@ public class Population {
 		}
 		this.infected.add(patient0);
 	}
+
+	public int size() {
+		return notInfected.size() + infected.size() + dead.size();
+	}
+	
+	public int sizeDeadandInfected() {
+		return infected.size() + dead.size();
+	}
 	
 }

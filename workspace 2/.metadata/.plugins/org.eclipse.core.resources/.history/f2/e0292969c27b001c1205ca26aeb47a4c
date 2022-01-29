@@ -35,7 +35,7 @@ public class Simulation2 {
 	
 	public void infect(Node person) {
 		double rate = person.varient.rate;
-		
+		  
 		Random rand = new Random();		
 		Node target;
 		

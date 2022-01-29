@@ -60,7 +60,7 @@ public class Simulation2 {
 	}
 	
 	public void kill() {
-		 
+		
 	}
 	
 	public void moveDead() {

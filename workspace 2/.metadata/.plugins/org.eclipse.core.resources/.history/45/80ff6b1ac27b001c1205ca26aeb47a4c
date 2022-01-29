@@ -26,11 +26,6 @@ public class Simulation2 {
 			infect(person);
 		}
 		moveInfected();
-		
-		for (Node person : population.infected) {
-			kill(person);
-		}
-		moveDead();
 	}
 	
 	public void infect(Node person) {
@@ -49,26 +44,12 @@ public class Simulation2 {
 	}
 	
 	public void moveInfected() {
-		for(int i = 0; i < population.notInfected.size(); i++) {
-			Node person = population.notInfected.get(i);
-			
+		for(Node person : population.notInfected) {
 			if(person.varient != null) {
 				population.infected.add(person);
-				population.notInfected.remove(i);
+				population.notInfected.remove(person);
 			}
 		}
-	}
-	
-	public void kill() {
-		 
-	}
-	
-	public void moveDead() {
-		
-	}
-	
-	public static void main(String[] args) {
-		
 	}
 	
 	//Each day, we loop through each infected node. Using the rate variable of variant each node is infected with, 
