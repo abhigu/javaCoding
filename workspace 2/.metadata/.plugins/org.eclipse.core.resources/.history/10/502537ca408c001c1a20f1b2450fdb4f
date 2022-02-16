@@ -30,12 +30,9 @@ public class Simulation2 {
 	}
 	
 	public void epidemic() {
-		while(population.sizeDeadandInfected() < population.size() && population.infected.size() > 0) {
+		while(population.sizeDeadandInfected() < population.size() || population.infected.size() == 0) {
 			newDay();
 		}
-		newDay();
-		//newDay();
-		//newDay();
 	}
 	
 	public void newDay() {
@@ -64,10 +61,6 @@ public class Simulation2 {
 	}
 
 	public void infect(Node person) {
-		if(population.notInfected.size() == 0 ) {
-			return; 
-		}
-		
 		double rate = person.varient.rate;
 	
 		Node target;
@@ -94,15 +87,15 @@ public class Simulation2 {
 		String output = "";
 		
 		output += "\nDay: " + day;
-		output += "\nHealthy: " + population.notInfected.size();  
+		output += "\nHealthy: " + population.notInfected.size();
 		output += "\nInfected: " + population.infected.size();
 		output += "\nDead: " + population.dead.size();
 		
 		return output;
 	}
-	 
+	
 	public static void main(String[] args) {
-		Simulation2 sim = new Simulation2(new Population(1000), new Varient(999999999, 0.2, .9, 999999999) );
+		Simulation2 sim = new Simulation2(new Population(1000), new Varient(6, 0.01, .9, 3) );
 		
 		sim.epidemic();
 	}

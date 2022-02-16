@@ -94,7 +94,7 @@ public class Simulation2 {
 		String output = "";
 		
 		output += "\nDay: " + day;
-		output += "\nHealthy: " + population.notInfected.size();  
+		output += "\nHealthy: " + population.notInfected.size();
 		output += "\nInfected: " + population.infected.size();
 		output += "\nDead: " + population.dead.size();
 		

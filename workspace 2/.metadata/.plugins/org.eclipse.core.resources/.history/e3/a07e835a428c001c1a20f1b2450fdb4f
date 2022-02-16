@@ -94,15 +94,15 @@ public class Simulation2 {
 		String output = "";
 		
 		output += "\nDay: " + day;
-		output += "\nHealthy: " + population.notInfected.size();  
+		output += "\nHealthy: " + population.notInfected.size();
 		output += "\nInfected: " + population.infected.size();
 		output += "\nDead: " + population.dead.size();
 		
 		return output;
 	}
-	 
+	
 	public static void main(String[] args) {
-		Simulation2 sim = new Simulation2(new Population(1000), new Varient(999999999, 0.2, .9, 999999999) );
+		Simulation2 sim = new Simulation2(new Population(1000), new Varient(10, 0.2, .9, 50) );
 		
 		sim.epidemic();
 	}
