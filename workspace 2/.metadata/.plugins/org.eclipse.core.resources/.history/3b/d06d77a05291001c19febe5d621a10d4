@@ -14,4 +14,3 @@ Responsible for conducting the propagation. Consists of an overall while loop th
 Variant Class
 Responsible for returning a virus when called. At the start of the Simulation, it is automatically called in the main method and used to run the simulation. When there is the need for a mutation, the Simulation class calls the mutation method in Variant. This method takes in the data of the previous Variant (the one that initially infected the individual), updates it, and returns it as the another Variant that has entered the Simulation. It is called a variable about of times, depending on how often the random chance produces the call for a mutation.    
   
- 
