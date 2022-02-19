@@ -7,7 +7,7 @@ public class Simulation {
 		this.population = population;
 	}
 
-	public void epidemic(Varient firstVarient, boolean wantdailyprint) {
+	public void epidemic(Variant firstVarient, boolean wantdailyprint) {
 		int day = 1;
 		boolean done = false;
 		while (!done) {
@@ -41,11 +41,11 @@ public class Simulation {
 		}
 	}
 	
-	public void epidemicInfectionDayOnly(Varient firstVarient) {
+	public void epidemicInfectionDayOnly(Variant firstVarient) {
 		epidemic(firstVarient, false);
 	}
 	
-	public void epidemicAll(Varient firstVarient) {
+	public void epidemicAll(Variant firstVarient) {
 		epidemic(firstVarient, true);
 	}
 	
@@ -63,7 +63,7 @@ public class Simulation {
 	public static void main(String[] args) {
 		Population population = new Population(1329);
 		Simulation simulation = new Simulation(population);
-		Varient varient = new Varient(5, 0.05, 0.95, 5);
+		Variant varient = new Variant(5, 0.05, 0.95, 5);
 		
 		simulation.epidemicAll(varient);
 	}

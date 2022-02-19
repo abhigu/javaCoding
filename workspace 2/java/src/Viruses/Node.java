@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Node {
-	Varient varient;
-	List<Varient> immunities = new ArrayList<Varient>(); 
+	Variant variant;
+	List<Variant> immunities = new ArrayList<Variant>(); 
 	
 	boolean living; 
 	
@@ -15,22 +15,22 @@ public class Node {
 	int dayOfInfection;
 	int dayOfHeal;
 			
-	public void infect(Varient varient, int day) {
-		this.varient = varient;
+	public void infect(Variant variant, int day) {
+		this.variant = variant;
 		this.dayOfInfection = day;
-		this.dayOfHeal = dayOfInfection + (int) varient.incubation;
+		this.dayOfHeal = dayOfInfection + (int) variant.incubation;
 	}
 	
 	public void checkHealed(int day) {
 		if(!!living && day >= this.dayOfHeal) {
-			this.immunities.add(this.varient);
-			varient = null;
+			this.immunities.add(this.variant);
+			variant = null;
 		}
 	}
 	
-	public boolean isImmune(Varient varient) {
-		for(Varient immune : immunities) {
-			if(varient == immune) {
+	public boolean isImmune(Variant variant) {
+		for(Variant immune : immunities) {
+			if(variant == immune) {
 				return true;
 			}
 		}
