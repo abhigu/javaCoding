@@ -1,0 +1,51 @@
+package Viruses;
+
+import java.util.Random;
+
+public class Variant {
+	double rate;
+	double deathRate;
+	double stability;
+	double incubation;
+	
+	/**
+	 * @param rate: Infection rate (in number infected people one person can infect per day). 
+	 * @param deathRate: Death rate (in percent chance of death). 
+	 * @param stability: Mutation rate (in percent chance of mutation). 
+	 * @param incubation: Heal rate (in how many days the infection will heal) 
+	 * @author Abhijit
+	 */
+	
+	public Variant(double rate, double deathRate, double stability, double incubation) {
+		this.rate = rate;
+		this.deathRate = deathRate;
+		this.stability = stability;
+		this.incubation = incubation;
+	}
+	
+	/**
+	 * @param Variant: Constructor takes in given RKSI values and assigns them to class level variables. 
+	 */
+	
+	public double[] getRKSI() {
+		double[] RKSI = {rate, deathRate, stability, incubation};
+		return RKSI;
+	}
+	
+	/**
+	 * @param getRKSI: Returns exiting RKSI values when called. 
+	 */
+	
+	public Variant mutation() {
+		Random rn = new Random();
+		Variant nextVarient = new Variant(rate + rn.nextInt(5), deathRate + (rn.nextInt(7) * 0.01), stability - (rn.nextInt(7) * 0.01), incubation + rn.nextInt(5));		
+		return nextVarient;
+	}
+	
+	/**
+	 * @param mutation: Mutates existing Variant's RKSI values to obtain new RKSI values and stores them in other Variant object. 
+	 */
+}
+
+
+ 

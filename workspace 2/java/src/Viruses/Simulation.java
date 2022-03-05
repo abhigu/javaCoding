@@ -1,5 +1,5 @@
 package Viruses;
-
+//Legacy class
 public class Simulation {
 	Population population;
 	

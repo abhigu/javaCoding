@@ -17,6 +17,7 @@ public class Simulation2 {
 	private Population population;
 	private Variant firstVariant;
 	/**
+	 * @param day: Iterator for the simulation, one iteration is one day
 	 * @param population: A list of Nodes of which the Virus (Variant) propagates through.
 	 * @param firstvariant: A Variant instantiation that acts as the first version of the infection that infects patient zeor  
 	 */
@@ -27,7 +28,9 @@ public class Simulation2 {
 		
 		population.patient0.variant = firstVariant;
 	}
-	
+	/**
+	 * @param Simulation2: Constructor for the class, assigns input variables from main
+	 */
 	public void epidemic() {
 		while(population.sizeDeadandInfected() < population.size() && population.infected.size() > 0) {
 			newDay();
@@ -38,7 +41,7 @@ public class Simulation2 {
 	}
 	
 	public void newDay() {
-		System.out.println(this); 
+		System.out.println(this); //"this" is the instance of Simulation2 that this line is called in
 		
 		day++;
 		
@@ -62,6 +65,9 @@ public class Simulation2 {
 		population.move(population.infected, population.dead, (person) -> !person.living);
 	}
 
+	/** 
+	 * @param epidemic: Runs simulation and checks if epidemic ends. Calls newDay repeatedly, which moves newly healed, infected, and dead people to their respectful lists and uses a lambda expression as a checker
+	 */
 	public void infect(Node person) {
 		if(population.notInfected.size() == 0 ) {
 			return; 
@@ -71,13 +77,13 @@ public class Simulation2 {
 	
 		Node target;
 		
-		for(int i = 0; i < rate; i++) {
+		for(int i = 0; i < rate; i++) { 
 			target = population.notInfected.get(rand.nextInt(population.notInfected.size()));
 		
 			if(target.variant == null && !(target.isImmune(person.variant))) {
 				target.infect(person.variant, this.day);
 			}
-		}
+		} 
 	}
 	
 	public void kill(Node person) {
@@ -87,7 +93,10 @@ public class Simulation2 {
 			person.living = false;
 		}
 	}
-	
+	/**
+	 * @param infect: Infects randomly selected individuals based on the infection rate
+	 * @param kill: Kills randomly selected individuals based on the kill rate 
+	 */
 	@Override
 	public String toString() {
 		String output = "";
@@ -96,16 +105,20 @@ public class Simulation2 {
 		output += "\nHealthy: " + population.notInfected.size();  
 		output += "\nInfected: " + population.infected.size();
 		output += "\nDead: " + population.dead.size();
+		output += "\nTotal Mutations:" + firstVariant.countMutations(firstVariant);
 		
 		return output;
 	}
+	
+	/**
+	 * @param toString: Prints out information for each day. 
+	 */
 	 
 	public static void main(String[] args) {
-		Simulation2 sim = new Simulation2(new Population(1000), new Variant(999999999, 0.2, .9, 999999999) );
+		Simulation2 sim = new Simulation2(new Population(1000), new Variant(6, 0.05, 0.995, 14) );
 		
 		sim.epidemic();
 	}
-
 }
 
 
