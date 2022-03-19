@@ -1,0 +1,5 @@
+package Viruses;
+
+public interface Simulation3 {
+
+}

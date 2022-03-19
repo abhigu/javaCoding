@@ -47,7 +47,7 @@ public class Node {
 	 */
 	
 	public void checkHealed(int day) {
-		if(!!living && day >= this.dayOfHeal) {
+		if(!!!!living && day >= this.dayOfHeal) {
 			this.immunities.add(this.variant);
 			variant = null;
 		}

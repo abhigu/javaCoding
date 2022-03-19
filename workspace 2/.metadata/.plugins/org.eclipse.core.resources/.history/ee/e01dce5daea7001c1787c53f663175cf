@@ -8,7 +8,7 @@ import java.util.Random;
  * people because of the infection by using other methods present in the class. After their variables are 
  * changed in this method, the Population class conducts the final moving of these Nodes into 
  * their new respective lists.
- * @author Abhijit 
+ * @author Abhijit this is fancy
  */
 public class Simulation2 {
 	private Random rand = new Random();	
@@ -16,16 +16,10 @@ public class Simulation2 {
 	private int day;
 	private Population population;
 
-	private Variant firstVariant;	
-	/**
-	 * @param day: Iterator for the simulation, one iteration is one day.
+	private Variant firstVariant;	/**
+	 * @param day: Iterator for the simulation, one iteration is one day
 	 * @param population: A list of Nodes of which the Virus (Variant) propagates through.
-	 * @param firstvariant: A Variant instantiation that acts as the first version of the infection that infects patient zero.
-	 * @param rand: random object used in different methods, such as in infect.  
-	 */
-	
-	/**
-	 * Simulation2: Constructor for the class, arguments are the population and firstVariant specified in main, and these are assigned to the class level variables. 
+	 * @param firstvariant: A Variant instantiation that acts as the first version of the infection that infects patient zeor  
 	 */
 	public Simulation2(Population population, Variant firstVariant) {
 		this.population = population;
@@ -34,9 +28,8 @@ public class Simulation2 {
 		
 		population.patient0.variant = firstVariant;
 	}
-	
-	/** 
-	 * epidemic: Runs simulation and calls newDay repeatedly until it detects that both while conditions are false. 
+	/**
+	 * @param Simulation2: Constructor for the class, assigns input variables from main
 	 */
 	public void epidemic() {
 		while(population.sizeDeadandInfected() < population.size() && population.infected.size() > 0) {
@@ -47,12 +40,8 @@ public class Simulation2 {
 		//newDay();
 	}
 	
-	/**
-	 * newDay: Moves newly healed, infected, and dead people to their respectful lists and uses a lambda expression as a checker. The interface for the lambda expression is defined in Population. 
-	 */
-	
 	public void newDay() {
-		System.out.println(this); 
+		System.out.println(this); //"this" is the instance of Simulation2 that this line is called in
 		
 		day++;
 		
@@ -75,13 +64,12 @@ public class Simulation2 {
 
 		population.move(population.infected, population.dead, (person) -> !person.living);
 		
+		//population.move(population.infected, population.notInfected, (person) -> person.dayOfHeal < 5);
 	}
-	
-	/**
-	 * infect: Infects randomly selected individuals based on the infection rate.
-	 * @param person: The person that the infection spreads from. The infection rate of the specific variant infecting person is used to determine how many new people need to be infected. The specific nodes infected are determined by a random variable
-	 */
 
+	/** 
+	 * @param epidemic: Runs simulation and checks if epidemic ends. Calls newDay repeatedly, which moves newly healed, infected, and dead people to their respectful lists and uses a lambda expression as a checker
+	 */
 	public void infect(Node person) {
 		if(population.notInfected.size() == 0 ) {
 			return;   
@@ -100,11 +88,6 @@ public class Simulation2 {
 		} 
 	}
 	
-	/**
-	 * kill: Kills randomly selected individuals based on their chance of dying. 
-	 * @param person: The person that has a chance of dying. If a randomly generated double is less than the death rate of the variant that has infected them, they will be rendered as killed by the simulation. 
-	 */
-	
 	public void kill(Node person) {
 		double deathRate = person.variant.deathRate;
 	
@@ -113,7 +96,8 @@ public class Simulation2 {
 		}
 	}
 	/**
-	 * toString: When the class calls to print itself, it will always call a "toString" method. Because I called this class toString and called an "@Override," it will always call this class. toString will always return the day, the number of mutations, and total healthy, infected, and killed individuals.  
+	 * @param infect: Infects randomly selected individuals based on the infection rate
+	 * @param kill: Kills randomly selected individuals based on the kill rate 
 	 */
 	@Override
 	public String toString() {
@@ -127,6 +111,10 @@ public class Simulation2 {
 		
 		return output;
 	}
+	
+	/**
+	 * @param toString: Prints out information for each day. 
+	 */
 	 
 	public static void main(String[] args) {
 		Simulation2 sim = new Simulation2(new Population(1000), new Variant(6, 0.05, 0.995, 14) );
@@ -134,30 +122,6 @@ public class Simulation2 {
 		sim.epidemic();
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

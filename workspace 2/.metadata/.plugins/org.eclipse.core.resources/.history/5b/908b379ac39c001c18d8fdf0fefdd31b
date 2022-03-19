@@ -15,8 +15,8 @@ public class Simulation2 {
 	
 	private int day;
 	private Population population;
-	private Variant firstVariant;
-	/**
+
+	private Variant firstVariant;	/**
 	 * @param day: Iterator for the simulation, one iteration is one day
 	 * @param population: A list of Nodes of which the Virus (Variant) propagates through.
 	 * @param firstvariant: A Variant instantiation that acts as the first version of the infection that infects patient zeor  
@@ -63,6 +63,8 @@ public class Simulation2 {
 		}
 
 		population.move(population.infected, population.dead, (person) -> !person.living);
+		
+		//population.move(population.infected, population.notInfected, (person) -> person.dayOfHeal < 5);
 	}
 
 	/** 
@@ -70,7 +72,7 @@ public class Simulation2 {
 	 */
 	public void infect(Node person) {
 		if(population.notInfected.size() == 0 ) {
-			return; 
+			return;  
 		}
 		
 		double rate = person.variant.rate;
@@ -105,6 +107,7 @@ public class Simulation2 {
 		output += "\nHealthy: " + population.notInfected.size();  
 		output += "\nInfected: " + population.infected.size();
 		output += "\nDead: " + population.dead.size();
+		output += "\nTotal Mutations:" + firstVariant.countMutations(firstVariant);
 		
 		return output;
 	}
@@ -114,7 +117,7 @@ public class Simulation2 {
 	 */
 	 
 	public static void main(String[] args) {
-		Simulation2 sim = new Simulation2(new Population(1000), new Variant(999999999, 0.2, .9, 999999999) );
+		Simulation2 sim = new Simulation2(new Population(1000), new Variant(6, 0.05, 0.995, 14) );
 		
 		sim.epidemic();
 	}
