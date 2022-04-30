@@ -9,4 +9,17 @@
     <fullyQualifiedTypeName name="java.util.List"/>
     <fullyQualifiedTypeName name="java.util.Random"/>
     <fullyQualifiedTypeName name="Viruses.Variant"/>
+    <fullyQualifiedTypeName name="java.util.Scanner"/>
+    <fullyQualifiedTypeName name="java.lang.System.LoggerFinder"/>
+    <fullyQualifiedTypeName name="viruses.Population"/>
+    <fullyQualifiedTypeName name="viruses.Simulation"/>
+    <fullyQualifiedTypeName name="viruses.Variant"/>
+    <fullyQualifiedTypeName name="javax.swing.JFrame"/>
+    <fullyQualifiedTypeName name="javax.swing.JPanel"/>
+    <fullyQualifiedTypeName name="javax.swing.JButton"/>
+    <fullyQualifiedTypeName name="javax.swing.JTextField"/>
+    <fullyQualifiedTypeName name="javax.swing.JLabel"/>
+    <fullyQualifiedTypeName name="sun.jvm.hotspot.types.JDoubleField"/>
+    <fullyQualifiedTypeName name="sun.jvm.hotspot.types.JIntField"/>
+    <fullyQualifiedTypeName name="java.lang.String"/>
 </qualifiedTypeNameHistroy>
