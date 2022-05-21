@@ -1,5 +1,9 @@
 package gui;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -19,9 +23,11 @@ import viruses.Variant;
 public class Panel extends JPanel{
 	private JScrollPane scroll;
 	private JLabel label;
+	private JLabel label2;
 	private JTextField field;
 	private JButton button;
 	private JTextArea text;
+	private JPanel northPanel;
 	
 	double[] PRKSI = new double[5]; 
 	
@@ -30,23 +36,42 @@ public class Panel extends JPanel{
 	ActionListener action;
 	
 	Panel() {
-		label = new JLabel();
-		field = new JTextField(10);
-		button = new JButton();
-		text = new JTextArea(10, 100);
-		scroll = new JScrollPane();
-		scroll.setBounds(0, 0, 100, 100);
-		scroll.setVerticalScrollBarPolicy(scroll.VERTICAL_SCROLLBAR_ALWAYS);
+		label = new JLabel("Enter Population: ");
+		label.setFont(new Font("Ariel", Font.ITALIC, 50));
+		label.setForeground(Color.BLUE);
 		
-		super.add(label);
-		super.add(field);
-		super.add(button);
-		scroll.add(text);
-		super.add(scroll);
+		label2 = new JLabel("           Epidemic Simulation Data");
+		label2.setHorizontalAlignment(0);
+		label2.setFont(new Font("Ariel", Font.ITALIC, 50));
+		label2.setForeground(Color.RED);
 		
-		button.setText("Submit!");
+		field = new JTextField(22);
+		field.setFont(new Font("Ariel", Font.PLAIN, 50));
 		
-		label.setText("Enter Population");
+		button = new JButton("Submit!");
+		button.setFont(new Font("Ariel", Font.BOLD, 50));
+		
+		text = new JTextArea(10,100);
+		
+		scroll = new JScrollPane(text);
+		
+		northPanel = new JPanel(new BorderLayout());
+		northPanel.add(label, BorderLayout.WEST);
+		northPanel.add(label2, BorderLayout.CENTER);
+		
+		super.setLayout(new BorderLayout());
+		super.add(northPanel, BorderLayout.NORTH);
+		super.add(field, BorderLayout.WEST);
+		super.add(button, BorderLayout.SOUTH);
+		super.add(scroll, BorderLayout.EAST);
+
+		state = 0;
+		run();
+	} 
+	
+	public void run() {
+		text.setText("");
+		label.setText("Enter Population: ");
 		state = 0;
 			
 		action = new ActionListener() {
@@ -56,16 +81,16 @@ public class Panel extends JPanel{
 				try {
 					if(state == 0) {
 						iterate(); 
-						label.setText("Enter infection rate ");
+						label.setText("Enter infection rate: ");
 					} else if(state == 1) {
 						iterate();
-						label.setText("Enter death rate "); 
+						label.setText("Enter death rate: "); 
 					} else if(state == 2) {
 						iterate();
-						label.setText("Enter mutation stability ");
+						label.setText("Enter mutation stability: ");
 					} else if (state == 3) {
 						iterate();
-						label.setText("Enter incubation time"); 
+						label.setText("Enter incubation time: "); 
 					} else {
 						iterate();
 						label.setText("Simulation Done"); 
@@ -86,9 +111,8 @@ public class Panel extends JPanel{
 				}	
 			}
 		};
-			
 		button.addActionListener(action);
-	}  
+	}
 	
 	public void iterate() {
 		PRKSI[state] = Double.valueOf(field.getText());

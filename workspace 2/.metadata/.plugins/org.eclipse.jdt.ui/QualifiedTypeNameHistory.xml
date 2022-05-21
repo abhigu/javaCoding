@@ -22,4 +22,9 @@
     <fullyQualifiedTypeName name="sun.jvm.hotspot.types.JDoubleField"/>
     <fullyQualifiedTypeName name="sun.jvm.hotspot.types.JIntField"/>
     <fullyQualifiedTypeName name="java.lang.String"/>
+    <fullyQualifiedTypeName name="javax.swing.JScrollPane"/>
+    <fullyQualifiedTypeName name="javax.swing.JMenuBar"/>
+    <fullyQualifiedTypeName name="javax.swing.JMenu"/>
+    <fullyQualifiedTypeName name="javax.swing.JMenuItem"/>
+    <fullyQualifiedTypeName name="java.awt.event.MouseListener"/>
 </qualifiedTypeNameHistroy>
