@@ -17,7 +17,7 @@ public class Population {
 	List<Node> notInfected = new ArrayList(); 
 	List<Node> infected = new ArrayList(); 
 	List<Node> dead = new ArrayList(); 
-	List<Variant> mutations = new ArrayList();
+	//List<Variant> mutations = new ArrayList();
 	
 	/**
 	 * @param notInfected, infected, dead: These 3 lists contain all the non-infected, infected, and dead individuals
@@ -31,7 +31,7 @@ public class Population {
 		}
 		this.infected.add(patient0);
 	}
-	
+
 	/**
 	 * @param Population: Creates a population for the disease to propagate in, as well as infecting patient zero 
 	 */
@@ -61,6 +61,26 @@ public class Population {
 		
 		fromList.removeAll(temp);
 		toList.addAll(temp);
+	}
+	
+	public int getNotInfected() {
+		return notInfected.size();
+	}
+
+	public int getInfected() {
+		return infected.size();
+	}
+
+	public int getDead() {
+		return dead.size();
+	}
+
+	public int getMutationSize() { //REFRACTOR
+		return patient0.getVariant().countMutations(patient0.getVariant());
+	}
+	
+	public Variant getMutations() { //REFRACTOR
+		return patient0.getVariant();
 	}
 	
 	/**

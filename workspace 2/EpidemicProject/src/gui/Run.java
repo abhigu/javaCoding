@@ -19,7 +19,7 @@ public class Run {
 	}
 	
 	public void windowRun() {
-		WindowGui frame = new WindowGui();
+		WindowGui frame = new WindowGui();    
 	}
 
 	

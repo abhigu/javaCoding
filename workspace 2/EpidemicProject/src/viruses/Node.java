@@ -68,4 +68,9 @@ public class Node {
 	/**
 	 * @param isImmune: Assigns infection to individual if called in Simulation, but also checks if it's immune before infecting. 
 	 */
+
+	public Variant getVariant() {
+		return variant;
+	}
+	
 }

@@ -2,6 +2,9 @@ package viruses;
 
 import java.util.Random;
 
+import driver.*;
+
+
 /** 
  * Simulation class responsible for conducting the propagation. Consists of an overall while loop that runs, 
  * incrementing the day and running the newDay method, which heals, infects, and kills a certain amount of 
@@ -9,8 +12,12 @@ import java.util.Random;
  * changed in this method, the Population class conducts the final moving of these Nodes into 
  * their new respective lists.
  * @author Abhijit 
- */
-public class Simulation {
+ */ 
+public class Simulation { 
+	private Data data; 
+
+	private SimParam simParam;
+	
 	private Random rand = new Random();	
 	
 	private int day;
@@ -18,7 +25,7 @@ public class Simulation {
 
 	private Variant firstVariant;	
 	public Variant first = firstVariant;
-	
+	 
 	/**
 	 * @param day: Iterator for the simulation, one iteration is one day.
 	 * @param population: A list of Nodes of which the Virus (Variant) propagates through.
@@ -36,23 +43,41 @@ public class Simulation {
 		
 		population.patient0.variant = firstVariant;
 		population.patient0.variant.infectPlus();
-	}   
+		
+		this.simParam = new SimParam(population, firstVariant);
+		this.data = new Data(this.simParam);
+	} 
+	
+	public Simulation(SimParam simParam) {
+		this.population = simParam.getPopulation();
+		this.firstVariant = simParam.getVariant();
+		this.day = 1;
+		
+		population.patient0.variant = firstVariant;
+		population.patient0.variant.infectPlus();
+		
+		this.simParam = simParam;
+		this.data = new Data(this.simParam); 
+	} 
 	
 	/** 
 	 * epidemic: Runs simulation and calls newDay repeatedly until it detects that both while conditions are false. 
 	 */
 	public void epidemic() {
 		while(population.sizeDeadandHealthy() < population.size() && population.infected.size() > 0) {
-			System.out.println(Print());
+			//System.out.println(Print());
+			updateDaily();
 			newDay();
 			if(day > 100) {
 				break;
 			}
 		}
-		System.out.println(Print());
+		//System.out.println(Print());
 		newDay();
 		
-		System.out.println(endData());
+		data.setEndMutation(population.getMutations());  
+		
+		//System.out.println(endData());
 	}
 	
 	/**
@@ -64,8 +89,14 @@ public class Simulation {
 		return firstVariant.stringMutations(firstVariant);
 	}
 	
+	public void updateDaily() {
+		Daily daily = new Daily(day, population);
+		data.DailyDataUptade(daily);
+	}
+	
 	public void newDay() {
 		day++;
+		
 		
 		for(Node person : population.infected) {
 			person.checkHealed(day);
@@ -122,7 +153,7 @@ public class Simulation {
 	
 		if(rand.nextDouble() < deathRate) {
 			person.living = false;
-			person.variant.deadPlus();
+			person.variant.deadPlus(); 
 		}
 	}
 	/**
@@ -140,28 +171,23 @@ public class Simulation {
 		
 		return output;
 	}
+	
+	public Data getData() {
+		return data;
+	}
+	
+	//TODO: you might need add getters for Data object
+	//TODO: Try testing data in Simulation
+	//TODO: For homework, as simulation runs, add stuff to the Simulation's data object
 	 
 	public static void main(String[] args) {
-		Simulation sim = new Simulation(new Population(1000), new Variant(5, 0.01, 0.99, 5));
+		Simulation sim = new Simulation(new Population(1000), new Variant(5, 0.01, 0.99, 5));// TODO: make it so you can pass in a simparam object
 		
-		sim.epidemic();
+		sim.epidemic();   
+		
+		System.out.println(sim.getData());
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
