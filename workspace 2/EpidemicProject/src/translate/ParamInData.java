@@ -1,0 +1,8 @@
+package translate;
+
+import dataStructures.Data;
+
+public interface ParamInData {
+	public void getParam(Data data); 
+}
+// TALK TO FATHER ABOUT WHAT TO DO NEXT AND EXPLAIN CONFUSION AND FEELING OF BEING LOST AS I REALLY DON'T KNOW WHAT IM DOING BEYOND THE POINT OF MAKING THE SIMULATORGENERATOR CLASS

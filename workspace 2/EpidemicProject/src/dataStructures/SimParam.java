@@ -1,4 +1,4 @@
-package driver;
+package dataStructures;
 
 import viruses.Population;
 import viruses.Variant;

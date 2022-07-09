@@ -2,6 +2,9 @@ package viruses;
 
 import java.util.Random;
 
+import dataStructures.Daily;
+import dataStructures.Data;
+import dataStructures.SimParam;
 import driver.*;
 
 

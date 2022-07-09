@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import dataStructures.Data;
+import dataStructures.SimParam;
 import viruses.Population;
 import viruses.Simulation;
 import viruses.Variant;

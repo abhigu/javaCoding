@@ -1,4 +1,4 @@
-package legacy;
+package legacyVirus;
 
 import java.util.ArrayList;
 

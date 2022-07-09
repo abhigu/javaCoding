@@ -28,4 +28,5 @@
     <fullyQualifiedTypeName name="viruses.Population"/>
     <fullyQualifiedTypeName name="viruses.Variant"/>
     <fullyQualifiedTypeName name="viruses.Simulation"/>
+    <fullyQualifiedTypeName name="dataStructures.Data"/>
 </qualifiedTypeNameHistroy>
