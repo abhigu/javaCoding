@@ -9,6 +9,10 @@ import dataStructures.Data;
 import dataStructures.SimParam;
 import viruses.Simulation;
 
+//TODO: HW
+//Clean up class and extra graph dimension values 
+//Add tally marks for axis  
+
 public class Matrix extends JPanel {
 	
 	private int sizex;
@@ -16,13 +20,16 @@ public class Matrix extends JPanel {
 	private int gx;
 	private int gy;
 	private String[][] graph;
+	private Data data;
 	
-	public Matrix(int sizex, int sizey, int gx, int gy) {
+	public Matrix(int sizex, int sizey, int gx, int gy, Data data) {
 		this.sizex = sizex;
 		this.sizey = sizey;
 		this.gx = gx;
 		this.gy = gy;
 		graph = new String[this.sizey][this.sizex];
+		this.data = data;
+		this.addData();
 		
 		for(int i = 0; i < sizey; i++) {
 			
@@ -59,49 +66,44 @@ public class Matrix extends JPanel {
 		}
 	}
 	
+	public void addData() {
+		for (int i = 0; i < data.getDailyData().size(); i++) {
+			int day = data.getDailyData().get(i).getDay();
+			int infected = data.getDailyData().get(i).getInfected();
+			this.addPoint(day, infected);
+			System.out.println(day + ", " + infected);
+		}
+	}
 	
 	@Override
 	public void paintComponent(Graphics g) {
 		int xoffset = 100;
 		int yoffset = 900;
-		
+		int mag = 1;
+		int scale = 5;
+
 		g.drawLine(xoffset, 0, xoffset, 1000);
 		g.drawLine(0, yoffset, 1400, yoffset);
 		
 		for(int i = 0; i < sizey; i++) {
 			for(int j = 0; j < sizex; j++) {
 				if (graph[i][j].equals("X")) {
-					g.fillOval(((j) + xoffset - 5), ((i) + yoffset - 95), 10, 10);
+					int x = ((j*mag) + xoffset - (scale/2));
+					int y = (((i - sizey + 1)*mag) + yoffset - (scale/2));
+					g.fillOval(x, y, (scale), (scale));
+					
 				}
-			}
+			} 
 		}
 	}
 	
 	public static void main(String[] args) {
-		Matrix matrix = new Matrix(1000, 1500, 1000, 1500); 
-		
-		/*
-		matrix.addPoint(4, 7);
-		matrix.addPoint(2, 1);
-		matrix.addPoint(8, 5);
-		matrix.addPoint(0, 5);
-		matrix.addPoint(3, 0);
-		
-		matrix.addPoint(5, 5);
-		matrix.addPoint(0, 0);
-		
-		matrix.printMatrix();
-		*/
-		
-		
-		
+			
 		Simulation sim = new Simulation(new SimParam(1000, 5, 0.05, 0.95, 7));
 		sim.epidemic();
-		Data data = sim.getData();
-		
-		for (int i = 0; i < data.getDailyData().size(); i++) {
-			matrix.addPoint(data.getDailyData().get(i).getDay(), data.getDailyData().get(i).getDead());
-		}
+		Data data = sim.getData(); 
+		Matrix matrix = new Matrix(1000, 1500, 1000, 1500, data); 
+
 		
 		JFrame frame = new JFrame();
 		
@@ -111,3 +113,4 @@ public class Matrix extends JPanel {
 		
 	}
 }
+
