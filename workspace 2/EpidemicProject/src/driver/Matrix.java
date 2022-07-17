@@ -10,23 +10,20 @@ import dataStructures.SimParam;
 import viruses.Simulation;
 
 //TODO: HW
-//Clean up class and extra graph dimension values 
-//Add tally marks for axis  
+//Make tally marks for y-axis not dependent on points, but rather, draw each y-axis tally at equal intervals. 
+//Make tally marks for both x-axis and y-axis in separate for loops instead of the point drawing loop.
+//Fix bug where last point on graph connects to origin.
 
 public class Matrix extends JPanel {
 	
 	private int sizex;
 	private int sizey;
-	private int gx;
-	private int gy;
 	private String[][] graph;
 	private Data data;
 	
-	public Matrix(int sizex, int sizey, int gx, int gy, Data data) {
+	public Matrix(int sizex, int sizey, Data data) {
 		this.sizex = sizex;
 		this.sizey = sizey;
-		this.gx = gx;
-		this.gy = gy;
 		graph = new String[this.sizey][this.sizex];
 		this.data = data;
 		this.addData();
@@ -51,11 +48,6 @@ public class Matrix extends JPanel {
 		}
 	}
 	
-	public void addPoint(int x, int y) {
-		graph[sizey - y - 1][x] = "X";
-	}
-	
-	
 	public void printMatrix() {
 		for(int i = 0; i < sizey; i++) {
 			for(int j = 0; j < sizex; j++) {
@@ -66,12 +58,16 @@ public class Matrix extends JPanel {
 		}
 	}
 	
+	public void addPoint(int x, int y) {
+		graph[sizey - y - 1][x] = "X";
+	}
+	
 	public void addData() {
 		for (int i = 0; i < data.getDailyData().size(); i++) {
 			int day = data.getDailyData().get(i).getDay();
-			int infected = data.getDailyData().get(i).getInfected();
-			this.addPoint(day, infected);
-			System.out.println(day + ", " + infected);
+			int dead = data.getDailyData().get(i).getDead();
+			this.addPoint(day, dead);
+			System.out.println(day + ", " + dead);
 		}
 	}
 	
@@ -79,11 +75,15 @@ public class Matrix extends JPanel {
 	public void paintComponent(Graphics g) {
 		int xoffset = 100;
 		int yoffset = 900;
-		int mag = 1;
+		int mag = 10;
 		int scale = 5;
 
 		g.drawLine(xoffset, 0, xoffset, 1000);
 		g.drawLine(0, yoffset, 1400, yoffset);
+		
+		
+		int prex = 100;
+		int prey = 900;
 		
 		for(int i = 0; i < sizey; i++) {
 			for(int j = 0; j < sizex; j++) {
@@ -92,25 +92,31 @@ public class Matrix extends JPanel {
 					int y = (((i - sizey + 1)*mag) + yoffset - (scale/2));
 					g.fillOval(x, y, (scale), (scale));
 					
+					g.drawLine(x + (scale/2), 897, x + (scale/2), 903); 
+					g.drawLine(97, y + (scale/2), 103, y + (scale/2));
+					
+					g.drawLine(prex + (scale/2), prey + (scale/2), x + (scale/2), y + (scale/2));
+					prex = x;
+					prey = y;
+					
 				}
 			} 
 		}
 	}
 	
 	public static void main(String[] args) {
-			
 		Simulation sim = new Simulation(new SimParam(1000, 5, 0.05, 0.95, 7));
 		sim.epidemic();
 		Data data = sim.getData(); 
-		Matrix matrix = new Matrix(1000, 1500, 1000, 1500, data); 
-
 		
+		Matrix matrix = new Matrix(1000, 1500, data); 
+		matrix.addData();
 		JFrame frame = new JFrame();
-		
-		frame.setSize(matrix.gx, matrix.gy);
+		frame.setSize(matrix.sizex, matrix.sizey);
 		frame.setVisible(true);
 		frame.setContentPane(matrix);
 		
 	}
 }
 
+//int d = (int)Math.sqrt(((x-prex)*(x-prex)) + (y-prey)*(y-prey));
