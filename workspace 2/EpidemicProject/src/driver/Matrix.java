@@ -10,8 +10,7 @@ import dataStructures.SimParam;
 import viruses.Simulation;
 
 //TODO: HW
-//Make tally marks for y-axis not dependent on points, but rather, draw each y-axis tally at equal intervals. 
-//Make tally marks for both x-axis and y-axis in separate for loops instead of the point drawing loop.
+
 //Fix bug where last point on graph connects to origin.
 
 public class Matrix extends JPanel {
@@ -81,19 +80,23 @@ public class Matrix extends JPanel {
 		g.drawLine(xoffset, 0, xoffset, 1000);
 		g.drawLine(0, yoffset, 1400, yoffset);
 		
-		
 		int prex = 100;
 		int prey = 900;
-		
+
 		for(int i = 0; i < sizey; i++) {
 			for(int j = 0; j < sizex; j++) {
+				
+				int x = ((j*mag) + xoffset - (scale/2));
+				int y = (((i - sizey + 1)*mag) + yoffset - (scale/2));
+				
+				g.drawLine(x + (scale/2), 897, x + (scale/2), 903); 
+				g.drawLine(97, y + (scale/2), 103, y + (scale/2));
+				
 				if (graph[i][j].equals("X")) {
-					int x = ((j*mag) + xoffset - (scale/2));
-					int y = (((i - sizey + 1)*mag) + yoffset - (scale/2));
-					g.fillOval(x, y, (scale), (scale));
 					
-					g.drawLine(x + (scale/2), 897, x + (scale/2), 903); 
-					g.drawLine(97, y + (scale/2), 103, y + (scale/2));
+					g.drawLine(90, y + (scale/2), 110, y + (scale/2));	 				
+					
+					g.fillOval(x, y, (scale), (scale));
 					
 					g.drawLine(prex + (scale/2), prey + (scale/2), x + (scale/2), y + (scale/2));
 					prex = x;
