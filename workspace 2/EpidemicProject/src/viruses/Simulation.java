@@ -71,7 +71,7 @@ public class Simulation {
 			//System.out.println(Print());
 			updateDaily();
 			newDay();
-			if(day > 100) {
+			if(day > 900) {
 				break;
 			}
 		}

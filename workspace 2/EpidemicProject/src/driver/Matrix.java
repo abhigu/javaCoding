@@ -11,7 +11,7 @@ import viruses.Simulation;
 
 //TODO: HW
 
-//Fix bug where last point on graph connects to origin.
+//Lines that connect points that show Healthy and Infected over time as still somewhat bugged
 
 public class Matrix extends JPanel {
 	
@@ -64,9 +64,9 @@ public class Matrix extends JPanel {
 	public void addData() {
 		for (int i = 0; i < data.getDailyData().size(); i++) {
 			int day = data.getDailyData().get(i).getDay();
-			int dead = data.getDailyData().get(i).getDead();
-			this.addPoint(day, dead);
-			System.out.println(day + ", " + dead);
+			int simpoint = data.getDailyData().get(i).getDead();
+			this.addPoint(day, simpoint);
+			System.out.println(day + ", " + simpoint);
 		}
 	}
 	
@@ -74,8 +74,8 @@ public class Matrix extends JPanel {
 	public void paintComponent(Graphics g) {
 		int xoffset = 100;
 		int yoffset = 900;
-		int mag = 10;
-		int scale = 5;
+		int mag = 3;
+		int scale = 1;
 
 		g.drawLine(xoffset, 0, xoffset, 1000);
 		g.drawLine(0, yoffset, 1400, yoffset);
@@ -83,7 +83,7 @@ public class Matrix extends JPanel {
 		int prex = 100;
 		int prey = 900;
 
-		for(int i = 0; i < sizey; i++) {
+		for(int i = sizey-1; i > 0; i--) {
 			for(int j = 0; j < sizex; j++) {
 				
 				int x = ((j*mag) + xoffset - (scale/2));
@@ -99,6 +99,9 @@ public class Matrix extends JPanel {
 					g.fillOval(x, y, (scale), (scale));
 					
 					g.drawLine(prex + (scale/2), prey + (scale/2), x + (scale/2), y + (scale/2));
+					
+					System.out.println(prex + ", " + prey + " to " + x + ", " + y);
+					
 					prex = x;
 					prey = y;
 					
@@ -108,12 +111,14 @@ public class Matrix extends JPanel {
 	}
 	
 	public static void main(String[] args) {
-		Simulation sim = new Simulation(new SimParam(1000, 5, 0.05, 0.95, 7));
+		Simulation sim = new Simulation(new SimParam(1000, 3, 0.1, 0.99, 3));
 		sim.epidemic();
 		Data data = sim.getData(); 
 		
 		Matrix matrix = new Matrix(1000, 1500, data); 
 		matrix.addData();
+		
+		System.out.println(" ");
 		JFrame frame = new JFrame();
 		frame.setSize(matrix.sizex, matrix.sizey);
 		frame.setVisible(true);
@@ -121,5 +126,3 @@ public class Matrix extends JPanel {
 		
 	}
 }
-
-//int d = (int)Math.sqrt(((x-prex)*(x-prex)) + (y-prey)*(y-prey));
