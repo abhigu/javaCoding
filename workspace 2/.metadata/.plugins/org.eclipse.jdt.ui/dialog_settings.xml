@@ -36,7 +36,7 @@
 		<item value="11" key="INCLUDE_MASK"/>
 	</section>
 	<section name="completion_proposal_size">
-		<item value="1046" key="size.y"/>
+		<item value="252" key="size.y"/>
 		<item value="355" key="size.x"/>
 	</section>
 	<section name="DialogBounds_GetterSetterTreeSelectionDialog">

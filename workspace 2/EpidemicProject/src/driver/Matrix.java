@@ -1,5 +1,6 @@
 package driver;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
@@ -104,7 +105,7 @@ public class Matrix extends JPanel {
 			
 			for (int j = 0; j < subdata.getDailyData().size(); j++) {
 				int day = subdata.getDailyData().get(j).getDay();
-				int simpoint = subdata.getDailyData().get(j).getInfected();
+				int simpoint = subdata.getDailyData().get(j).getDead();
 				
 				this.addMultiPoint(day, simpoint, subgraph);
 				System.out.println(day + ", " + simpoint);
@@ -146,12 +147,15 @@ public class Matrix extends JPanel {
 		System.out.println(prex + ", " + prey + " to " + x + ", " + y);
 	}
 	
-	/*
+	
 	@Override
 	public void paintComponent(Graphics g) {
+		g.setColor(Color.white);
+		g.fillRect(0, 0, 1000, 1500);
+		g.setColor(Color.BLACK);
 		int xoffset = 100;
 		int yoffset = 900;
-		int mag = 1;
+		int mag = 5;
 		int scale = 3;
 		int prex = 100;
 		int prey = 900;
@@ -177,8 +181,8 @@ public class Matrix extends JPanel {
 			} 
 		}
 	}
-	*/
 	
+	/*
 	public void paintComponent(Graphics g) {
 		int xoffset = 100;
 		int yoffset = 900;
@@ -199,7 +203,7 @@ public class Matrix extends JPanel {
 					int x = coordinateX(j, xoffset, scale, mag);
 					int y = coordinateY(i, xoffset, scale, mag, sizey);
 				
-					if (subgraph[i][j].equals("X")) {
+					if (subgraph[i][j] != null && subgraph[i][j].equals("X")) {
 					
 						pointAndLines(g, x, y, prex, prey, scale);
 					
@@ -211,24 +215,25 @@ public class Matrix extends JPanel {
 			}
 		}
 	}
-	
+	*/
 	
 	public static void main(String[] args) {
-		/*
+		
 		Simulation sim = new Simulation(new SimParam(1000, 3, 0.5, 0.99, 3));
 		sim.epidemic();
 		Data data = sim.getData(); 
 		
 		Matrix matrix = new Matrix(1000, 1500, data); 
 		matrix.addData();
-		*/
 		
+		/*
 		SimulationGenerator simgen = new SimulationGenerator(1000, 1001, 5, 6, 0.1, 0.2, 0.8, 0.9, 5, 6, 10, "Test One");
 		simgen.series();
 		List<Data> data = simgen.getDataList();
 		
 		Matrix matrix = new Matrix(1000, 1500, data); 
 		matrix.addMultiData();
+		*/
 		
 		System.out.println(" ");
 		JFrame frame = new JFrame();
