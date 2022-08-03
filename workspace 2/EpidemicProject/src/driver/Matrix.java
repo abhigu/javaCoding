@@ -26,8 +26,10 @@ public class Matrix extends JPanel {
 	private List<String[][]> multigraph;
 	private List<Data> multidata;
 	private int multigraphlength;
+	private int magnification;
 	
-	public Matrix(int sizex, int sizey, Data data) {
+	public Matrix(int sizex, int sizey, Data data, int magnification) {
+		this.magnification = magnification;
 		this.sizex = sizex;
 		this.sizey = sizey;
 		graph = new String[this.sizey][this.sizex];
@@ -54,7 +56,8 @@ public class Matrix extends JPanel {
 		}
 	}
 	
-	public Matrix(int sizex, int sizey, List<Data> data) {
+	public Matrix(int sizex, int sizey, List<Data> data, int magnification) {
+		this.magnification = magnification;
 		this.sizex = sizex;
 		this.sizey = sizey;
 		this.multidata = new ArrayList<Data>();
@@ -92,7 +95,7 @@ public class Matrix extends JPanel {
 	public void addData() {
 		for (int i = 0; i < data.getDailyData().size(); i++) {
 			int day = data.getDailyData().get(i).getDay();
-			int simpoint = data.getDailyData().get(i).getInfected();
+			int simpoint = data.getDailyData().get(i).getDead();
 			this.addPoint(day, simpoint);
 			System.out.println(day + ", " + simpoint);
 		}
@@ -151,11 +154,11 @@ public class Matrix extends JPanel {
 	@Override
 	public void paintComponent(Graphics g) {
 		g.setColor(Color.white);
-		g.fillRect(0, 0, 1000, 1500);
+		g.fillRect(0, 0, sizex, sizey);
 		g.setColor(Color.BLACK);
 		int xoffset = 100;
 		int yoffset = 900;
-		int mag = 5;
+		int mag = magnification;
 		int scale = 3;
 		int prex = 100;
 		int prey = 900;
@@ -223,7 +226,7 @@ public class Matrix extends JPanel {
 		sim.epidemic();
 		Data data = sim.getData(); 
 		
-		Matrix matrix = new Matrix(1000, 1500, data); 
+		Matrix matrix = new Matrix(1000, 1500, data, 1); 
 		matrix.addData();
 		
 		/*

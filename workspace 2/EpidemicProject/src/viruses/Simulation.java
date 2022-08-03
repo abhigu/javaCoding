@@ -28,6 +28,7 @@ public class Simulation {
 
 	private Variant firstVariant;	
 	public Variant first = firstVariant;
+	private int dayLimit = 100;
 	 
 	/**
 	 * @param day: Iterator for the simulation, one iteration is one day.
@@ -61,7 +62,33 @@ public class Simulation {
 		
 		this.simParam = simParam;
 		this.data = new Data(this.simParam); 
+	}
+	
+	public Simulation(Population population, Variant firstVariant, int limit) {
+		this.dayLimit = limit;
+		this.population = population;
+		this.firstVariant = firstVariant;
+		this.day = 1;
+		
+		population.patient0.variant = firstVariant;
+		population.patient0.variant.infectPlus();
+		
+		this.simParam = new SimParam(population, firstVariant);
+		this.data = new Data(this.simParam);
 	} 
+	
+	public Simulation(SimParam simParam, int limit) {
+		this.dayLimit = limit;
+		this.population = simParam.getPopulation();
+		this.firstVariant = simParam.getVariant();
+		this.day = 1;
+		
+		population.patient0.variant = firstVariant;
+		population.patient0.variant.infectPlus();
+		
+		this.simParam = simParam;
+		this.data = new Data(this.simParam); 
+	}
 	
 	/** 
 	 * epidemic: Runs simulation and calls newDay repeatedly until it detects that both while conditions are false. 
@@ -71,7 +98,7 @@ public class Simulation {
 			//System.out.println(Print());
 			updateDaily();
 			newDay();
-			if(day > 900) {
+			if(day > dayLimit) {
 				break;
 			}
 		}

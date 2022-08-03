@@ -28,7 +28,7 @@ import viruses.Simulation;
 
 public class Gui {
 	static Simulation sim = new Simulation(new SimParam(0, 0.0, 0.0, 0.0, 0.0));
-	static Matrix matrix = new Matrix(1000, 1500, sim.getData());
+	static Matrix matrix = new Matrix(1000, 1500, sim.getData(), 1);
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
 		JPanel panel = new JPanel(null);
@@ -67,7 +67,7 @@ public class Gui {
 			));
 			
 			sim.epidemic();
-			matrix = new Matrix(1000, 1500, sim.getData());
+			matrix = new Matrix(1000, 1500, sim.getData(), 1);
 			panel.add(matrix);
 			matrix.setBounds(0, 100, 1000, 1500);
 			matrix.addData();
