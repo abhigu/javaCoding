@@ -28,7 +28,7 @@ public class Simulation {
 
 	private Variant firstVariant;	
 	public Variant first = firstVariant;
-	private int dayLimit = 100;
+	private int dayLimit;
 	 
 	/**
 	 * @param day: Iterator for the simulation, one iteration is one day.
@@ -41,40 +41,15 @@ public class Simulation {
 	 * Simulation2: Constructor for the class, arguments are the population and firstVariant specified in main, and these are assigned to the class level variables. 
 	 */
 	public Simulation(Population population, Variant firstVariant) {
-		this.population = population;
-		this.firstVariant = firstVariant;
-		this.day = 1;
-		
-		population.patient0.variant = firstVariant;
-		population.patient0.variant.infectPlus();
-		
-		this.simParam = new SimParam(population, firstVariant);
-		this.data = new Data(this.simParam);
+		this(population, firstVariant, 1250);
 	} 
 	
 	public Simulation(SimParam simParam) {
-		this.population = simParam.getPopulation();
-		this.firstVariant = simParam.getVariant();
-		this.day = 1;
-		
-		population.patient0.variant = firstVariant;
-		population.patient0.variant.infectPlus();
-		
-		this.simParam = simParam;
-		this.data = new Data(this.simParam); 
+		this(simParam, 1250);
 	}
 	
 	public Simulation(Population population, Variant firstVariant, int limit) {
-		this.dayLimit = limit;
-		this.population = population;
-		this.firstVariant = firstVariant;
-		this.day = 1;
-		
-		population.patient0.variant = firstVariant;
-		population.patient0.variant.infectPlus();
-		
-		this.simParam = new SimParam(population, firstVariant);
-		this.data = new Data(this.simParam);
+		this(new SimParam(population, firstVariant), limit);
 	} 
 	
 	public Simulation(SimParam simParam, int limit) {

@@ -26,13 +26,13 @@ import viruses.Simulation;
 //Make Gui work with multigraph
 //Add ability to change what piece of data you are graphing in Gui, including Mutation data, like RKSI values
 
-public class Gui2 {
+public class Gui3 {
 	int xLimit;
 	Simulation sim = new Simulation(new SimParam(0, 0.0, 0.0, 0.0, 0.0), xLimit);
 	//Simulation sim = new Simulation(new SimParam(0, 0.0, 0.0, 0.0, 0.0));
 	Matrix matrix = new Matrix(1000, 1500, sim.getData(), 1);
 
-	public Gui2(int xLimit) {
+	public Gui3(int xLimit) {
 		this.xLimit = xLimit + 100;
 	}
 	
@@ -108,7 +108,7 @@ public class Gui2 {
 		JLabel title = new JLabel("Epidemic Simulation");
 		
 		int x = 1250;
-		Gui2 gui2 = new Gui2(x);
+		Gui3 gui2 = new Gui3(x);
 		
 		
 		//Gui2 gui2 = new Gui2();
