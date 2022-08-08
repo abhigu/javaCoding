@@ -27,11 +27,13 @@ public class PlotData extends JPanel{
 	private List<Data> multidata;
 	private int mag;
 	
-	private int xoffset;
+	private int xoffset; 
 	private int yoffset;
 	private int scale;
 	private int prex;
 	private int prey;
+	private int maxX;
+	private int maxY;
 	
 	public PlotData() {
 		mag = 1;
@@ -98,6 +100,23 @@ public class PlotData extends JPanel{
 	
 	public void updateData(Data data) {
 		this.data = data;
+		for (int i = 0; i < data.getDailyData().size(); i++) {
+			int size = data.getDailyData().get(i).getInfected();
+			if (size > maxY) {
+				maxY = size;
+			}
+			
+			if(i > 100) {	
+				if (data.getDailyData().get(i).getInfected() == data.getDailyData().get(i - 1).getInfected() && 
+				data.getDailyData().get(i).getInfected() == data.getDailyData().get(i - 2).getInfected() &&
+				data.getDailyData().get(i).getInfected() == data.getDailyData().get(i - 3).getInfected() &&
+				data.getDailyData().get(i).getInfected() == data.getDailyData().get(i - 4).getInfected() &&
+				data.getDailyData().get(i).getInfected() == data.getDailyData().get(i - 5).getInfected()
+				) {
+					maxX = i;
+				}
+			}
+		}
 	}
 	
 	
