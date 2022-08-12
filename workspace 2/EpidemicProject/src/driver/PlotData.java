@@ -44,8 +44,6 @@ public class PlotData extends JPanel{
 		prey = yoffset;
 	}
 	
-	
-	
 	public void drawAxis(Graphics g) {
 		g.drawLine(xoffset, 0, xoffset, 1000);
 		g.drawLine(0, yoffset, 1400, yoffset);
