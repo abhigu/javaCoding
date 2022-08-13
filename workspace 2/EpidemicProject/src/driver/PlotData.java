@@ -15,6 +15,7 @@ import viruses.Simulation;
 
 //HW
 //Make x and y axis dynamic. For x, if the x values have been unchanging for some time, stop the simulation. The last x value should be at the far right. For y, calculate the maximum y value, and put the max y value at the top of the window. 
+//There is some very fascinating errors with the axis code, try to fix it.
 //Get PlotData to work with Gui3
 //Get multidata work in PlotData.
 //Add ability for PlotData to graph Mutation data, like graphing RKSI values
@@ -34,6 +35,8 @@ public class PlotData extends JPanel{
 	private int prey;
 	private int maxX;
 	private int maxY;
+	private int scaleX;
+	private int scaleY;
 	
 	public PlotData() {
 		mag = 1;
@@ -50,12 +53,15 @@ public class PlotData extends JPanel{
 	}
 	
 	public void drawTally(Graphics g) {
-		for(int x = xoffset; x < super.getWidth(); x +=50) {
+		calcX();
+		calcY();
+		
+		for(int x = xoffset; x < super.getWidth(); x += scaleX) {
 			g.drawLine(x + (scale/2), 898, x + (scale/2), 902); 
 			g.drawString(String.valueOf((x - xoffset)/mag), x + (scale/2), 915);
 		}
 		
-		for(int y = yoffset; y > 0; y -=50) {
+		for(int y = yoffset; y > 0; y -= scaleY) {
 			g.drawLine(98, y + (scale/2), 102, y + (scale/2));
 			g.drawString(String.valueOf(-(y - yoffset)/mag), 70, y + (scale/2));
 		}
@@ -74,6 +80,16 @@ public class PlotData extends JPanel{
 	}
 	
 	
+	private int calcX() {
+		scaleX = maxX/25;
+		return scaleX;
+	}
+	
+	private int calcY() {
+		scaleY = maxY/25;
+		return scaleY;
+	}
+	
 	
 	public void pointAndLines(Graphics g, int x, int y) {
 		g.drawLine(96, y + (scale/2), 104, y + (scale/2));	 				
@@ -89,7 +105,7 @@ public class PlotData extends JPanel{
 		prey = yoffset;
 		for (int i = 0; i < data.getDailyData().size(); i++) {
 			int x = coordinateX(data.getDailyData().get(i).getDay());
-			int y = coordinateY(data.getDailyData().get(i).getInfected());
+			int y = coordinateY(data.getDailyData().get(i).getDead());
 			pointAndLines(g, x, y);
 			prex = x;
 			prey = y;
@@ -138,7 +154,7 @@ public class PlotData extends JPanel{
 		JFrame frame = new JFrame();
 		PlotData plot = new PlotData();
 		
-		Simulation sim = new Simulation(new SimParam(500, 5, 0.1, 0.9, 5));
+		Simulation sim = new Simulation(new SimParam(500, 5, 0.01, 0.99, 15));
 		sim.epidemic();
 		Data data = sim.getData();
 		
