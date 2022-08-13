@@ -30,21 +30,28 @@ public class PlotData extends JPanel{
 	
 	private int xoffset; 
 	private int yoffset;
-	private int scale;
+	private int pointSize;
 	private int prex;
 	private int prey;
 	private int maxX;
 	private int maxY;
 	private int scaleX;
 	private int scaleY;
+	private int iterator;
 	
-	public PlotData() {
+	public PlotData(int sizex, int sizey, Data data, int magnification) {
 		mag = 1;
 		xoffset = 100;
-		yoffset = 900;
-		scale = 3;
+		yoffset = sizey - 100;
+		pointSize = 2;
 		prex = xoffset;
 		prey = yoffset;
+		iterator = 50;
+		
+		this.sizex = sizex;
+		this.sizey = sizey;
+		this.data = data;
+		this.mag = magnification;
 	}
 	
 	public void drawAxis(Graphics g) {
@@ -55,28 +62,31 @@ public class PlotData extends JPanel{
 	public void drawTally(Graphics g) {
 		calcX();
 		calcY();
-		
-		for(int x = xoffset; x < super.getWidth(); x += scaleX) {
-			g.drawLine(x + (scale/2), 898, x + (scale/2), 902); 
-			g.drawString(String.valueOf((x - xoffset)/mag), x + (scale/2), 915);
+		int i = 0;
+		for(int x = xoffset; x < super.getWidth(); x += iterator) {
+			g.drawLine(x + (pointSize/2), yoffset-2, x + (pointSize/2), yoffset+1); 
+			g.drawString(String.valueOf(scaleX*i), x + (pointSize/2), yoffset+15);
+			i++;
 		}
-		
-		for(int y = yoffset; y > 0; y -= scaleY) {
-			g.drawLine(98, y + (scale/2), 102, y + (scale/2));
-			g.drawString(String.valueOf(-(y - yoffset)/mag), 70, y + (scale/2));
+		i = 0;
+		for(int y = yoffset; y > 0; y -= iterator) {
+			
+			g.drawLine(xoffset-2, y + (pointSize/2), xoffset+2, y + (pointSize/2));
+			g.drawString(String.valueOf(scaleY*i), xoffset-30, y + (pointSize/2));
+			i++;
 		}
 	}
 	
 	
 	
-	public int coordinateX(int j) {
+	public int coordinateX(double j) {
 		//return ((j*mag) + xoffset - (scale/2));
-		return xoffset + j;
+		return (int) (xoffset + (j/scaleX)*iterator);
 	}
 	
-	public int coordinateY(int i) {
+	public int coordinateY(double i) {
 		//return (((i - sizey + 1)*mag) + yoffset - (scale/2));
-		return yoffset - i;
+		return (int) (yoffset - (i/scaleY)*iterator);
 	}
 	
 	
@@ -92,10 +102,9 @@ public class PlotData extends JPanel{
 	
 	
 	public void pointAndLines(Graphics g, int x, int y) {
-		g.drawLine(96, y + (scale/2), 104, y + (scale/2));	 				
-		g.fillOval(x, y, (scale), (scale));
-		g.drawLine(prex + (scale/2), prey + (scale/2), x + (scale/2), y + (scale/2));
-		System.out.println(prex + ", " + prey + " to " + x + ", " + y);
+		g.drawLine(xoffset-4, y + (pointSize/2), xoffset+4, y + (pointSize/2));	 				
+		g.fillOval(x, y, (pointSize), (pointSize));
+		g.drawLine(prex + (pointSize/2), prey + (pointSize), x + (pointSize/2), y + (pointSize/2));
 	}
 	
 	
@@ -105,19 +114,23 @@ public class PlotData extends JPanel{
 		prey = yoffset;
 		for (int i = 0; i < data.getDailyData().size(); i++) {
 			int x = coordinateX(data.getDailyData().get(i).getDay());
-			int y = coordinateY(data.getDailyData().get(i).getDead());
+			int y = coordinateY(data.getDailyData().get(i).getInfected());
 			pointAndLines(g, x, y);
+			System.out.println(x + ", " + y + ", " + data.getDailyData().get(i).getDay() + ", " + data.getDailyData().get(i).getInfected());
 			prex = x;
 			prey = y;
 		}
+		System.out.println(maxX + ", " + maxY);
 	}
 	
 	public void updateData(Data data) {
 		this.data = data;
+		prex = 0;
+		prey = 0;
 		for (int i = 0; i < data.getDailyData().size(); i++) {
 			int size = data.getDailyData().get(i).getInfected();
 			if (size > maxY) {
-				maxY = size;
+				maxY = size*2;
 			}
 			
 			if(i > 100) {	
@@ -152,15 +165,15 @@ public class PlotData extends JPanel{
 	
 	public static void main(String args[]) {
 		JFrame frame = new JFrame();
-		PlotData plot = new PlotData();
+		//PlotData plot = new PlotData(1400, 1500, sim);
 		
 		Simulation sim = new Simulation(new SimParam(500, 5, 0.01, 0.99, 15));
 		sim.epidemic();
 		Data data = sim.getData();
 		
-		plot.updateData(data);
+		//plot.updateData(data);
 		
-		frame.setContentPane(plot);
+		//frame.setContentPane(plot);
 		frame.setVisible(true);
 		frame.setSize(1400, 1500);
 		frame.setTitle("test");

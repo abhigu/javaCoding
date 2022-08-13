@@ -2,6 +2,7 @@ package driver;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Frame;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,18 +29,25 @@ import viruses.Simulation;
 
 public class Gui3 {
 	int xLimit;
-	Simulation sim = new Simulation(new SimParam(0, 0.0, 0.0, 0.0, 0.0), xLimit);
+	Simulation sim;
 	//Simulation sim = new Simulation(new SimParam(0, 0.0, 0.0, 0.0, 0.0));
-	Matrix matrix = new Matrix(1000, 1500, sim.getData(), 1);
-
+	//Matrix matrix = new Matrix(1000, 1500, sim.getData(), 1);
+	PlotData plotData;
+	
+	private int frameWidth = 1470;
+	private int frameHeight = 900;
+	
 	public Gui3(int xLimit) {
 		this.xLimit = xLimit + 100;
+		
+		sim = new Simulation(new SimParam(0, 0.0, 0.0, 0.0, 0.0), xLimit); 
+		plotData = new PlotData(0, 0, sim.getData(), 1);
 	}
 	
 	public void pageSetUp(JPanel panel, JLabel title) {
 		panel.setBackground(new Color(106, 150, 163));
 		
-		title.setBounds(1475, 15, 400, 50);
+		title.setBounds(frameWidth/2, 15, 400, 50);
 		title.setFont(new Font("Times New Roman", Font.BOLD, 40));
 		panel.add(title);
 	}
@@ -47,9 +55,9 @@ public class Gui3 {
 	public void textSetUp(JPanel panel, JTextField[] inputs, String[] names) {
 		for(int i = 0; i < inputs.length; i++) {
 			inputs[i] = new JTextField();
-			inputs[i].setBounds(1600, 125 + (i*150), 100, 25);
+			inputs[i].setBounds(frameWidth-100, 0 + (i + 1)*((frameHeight-200)/5), 100, 25);
 			JLabel label = new JLabel(names[i]);
-			label.setBounds(1600, 150 + (i*150), 100, 25);
+			label.setBounds(frameWidth-100, 0 + (i + 1)*((frameHeight-200)/5)+25, 100, 25);
 			panel.add(inputs[i]);
 			panel.add(label);
 		}
@@ -61,11 +69,11 @@ public class Gui3 {
 	}
 	
 	public void submitSetUp(JPanel panel, JTextField[] inputs, JButton submit) {
-		submit.setBounds(1612, 850, 75, 30);
+		submit.setBounds(frameWidth-100, frameHeight-100, 75, 30);
 		panel.add(submit);
 		
 		submit.addActionListener((e) -> {
-			panel.remove(matrix);
+			panel.remove(plotData);
 			
 			sim = new Simulation(new SimParam(
 				Integer.valueOf(inputs[0].getText()),
@@ -84,13 +92,15 @@ public class Gui3 {
 			));
 			*/
 			sim.epidemic();
-			matrix = new Matrix(xLimit + 1, 1500, sim.getData(), 1);
+			//matrix = new Matrix(xLimit + 1, 1500, sim.getData(), 1);
 			//matrix = new Matrix(1400, 1500, sim.getData(), 1);
-			panel.add(matrix);
+			plotData = new PlotData(frameWidth/4*3, frameHeight, sim.getData(), 1);
 			
-			matrix.setBounds(0, 0, xLimit + 1, 1500);
+			panel.add(plotData);
+			
+			plotData.setBounds(0, 0, frameWidth/4*3, frameHeight);
 			//matrix.setBounds(0, 0, 1400, 1500);
-			matrix.addData();
+			plotData.updateData(sim.getData());
 			
 			panel.revalidate();
 			panel.repaint();
@@ -107,18 +117,18 @@ public class Gui3 {
 		JButton submit = new JButton("Submit");
 		JLabel title = new JLabel("Epidemic Simulation");
 		
-		int x = 1250;
-		Gui3 gui2 = new Gui3(x);
+		int x = 750;
+		Gui3 gui3 = new Gui3(x);
 		
 		
 		//Gui2 gui2 = new Gui2();
 		
-		gui2.pageSetUp(panel, title);
-		gui2.textSetUp(panel, inputs, names);
-		gui2.submitSetUp(panel, inputs, submit);
+		gui3.pageSetUp(panel, title);
+		gui3.textSetUp(panel, inputs, names);
+		gui3.submitSetUp(panel, inputs, submit);
 		
 		frame.setVisible(true);
-		frame.setSize(2000, 8000);
+		frame.setSize(gui3.frameWidth, gui3.frameWidth);
 		frame.setContentPane(panel);
 	}
 }
