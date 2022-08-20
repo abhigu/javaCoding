@@ -14,12 +14,13 @@ import viruses.Simulation;
 //Takes in a Data object and uses it to plot the data on a graph through the Gui.
 
 //HW
-//Make x and y axis dynamic. For x, if the x values have been unchanging for some time, stop the simulation. The last x value should be at the far right. For y, calculate the maximum y value, and put the max y value at the top of the window. 
-//There is some very fascinating errors with the axis code, try to fix it.
-//Get PlotData to work with Gui3
-//Get multidata work in PlotData.
+//Still some occasional errors with new axis code...
+//The variable axis code only finds the maximums for one graph, not a set of graphs. This means the axis may not be accurate for multigraph...
 //Add ability for PlotData to graph Mutation data, like graphing RKSI values
 //Add ability to change what piece of data you are graphing in Gui3, including Mutation data, like RKSI values
+
+//Because multigraph now works on Gui3, the axis code may need updates because of how there are different graphs
+//Check if the multigraph correctly matches the multiple graph lines to the axis.
 
 public class PlotData extends JPanel{
 	private int sizex;
@@ -52,6 +53,22 @@ public class PlotData extends JPanel{
 		this.sizey = sizey;
 		this.data = data;
 		this.mag = magnification;
+	}
+	
+	public PlotData(int sizex, int sizey, Data data, int magnification, List<Data> multidata) {
+		mag = 1;
+		xoffset = 100;
+		yoffset = sizey - 100;
+		pointSize = 2;
+		prex = xoffset;
+		prey = yoffset;
+		iterator = 50;
+		
+		this.sizex = sizex;
+		this.sizey = sizey;
+		this.data = data;
+		this.mag = magnification;
+		this.multidata = multidata;
 	}
 	
 	public void drawAxis(Graphics g) {
@@ -106,17 +123,25 @@ public class PlotData extends JPanel{
 		g.fillOval(x, y, (pointSize), (pointSize));
 		g.drawLine(prex + (pointSize/2), prey + (pointSize), x + (pointSize/2), y + (pointSize/2));
 	}
-	
-	
 
 	public void plot (Graphics g) {
 		prex = xoffset;
 		prey = yoffset;
 		for (int i = 0; i < data.getDailyData().size(); i++) {
+			/*
 			int x = coordinateX(data.getDailyData().get(i).getDay());
 			int y = coordinateY(data.getDailyData().get(i).getInfected());
 			pointAndLines(g, x, y);
 			System.out.println(x + ", " + y + ", " + data.getDailyData().get(i).getDay() + ", " + data.getDailyData().get(i).getInfected());
+			*/
+			int rawX = data.getDailyData().get(i).getDay();
+			int rawY = data.getDailyData().get(i).getInfected();
+			System.out.println(rawX + ", " + rawY);
+			
+			int x = coordinateX(rawX);
+			int y = coordinateY(rawY);
+			pointAndLines(g, x, y);
+			//System.out.println(x + ", " + y + ", " + data.getDailyData().get(i).getDay() + ", " + data.getDailyData().get(i).getInfected());
 			prex = x;
 			prey = y;
 		}
@@ -146,34 +171,47 @@ public class PlotData extends JPanel{
 		}
 	}
 	
-	
-	
 	@Override
 	public void paintComponent(Graphics g) {
 		g.setColor(Color.white);
 		g.fillRect(0, 0, sizex, sizey);
 		g.setColor(Color.BLACK);
 		
+		multiPlot(g);
+		
+	}
+	
+	public void multiPlot(Graphics g) {
 		drawAxis(g);
 		drawTally(g); 
 		
+		for(int i = 0; i < multidata.size(); i++) {
+			Data data = multidata.get(i);
+			this.data = data;
+			
+			plot(g);
+		}
+		
+	}
+	
+	public void singlePlot(Graphics g) {
+		drawAxis(g);
+		drawTally(g); 
 		plot(g);
 		
 	}
 	
-	
-	
 	public static void main(String args[]) {
 		JFrame frame = new JFrame();
-		//PlotData plot = new PlotData(1400, 1500, sim);
 		
 		Simulation sim = new Simulation(new SimParam(500, 5, 0.01, 0.99, 15));
 		sim.epidemic();
 		Data data = sim.getData();
+		PlotData plot = new PlotData(1400, 1500, data, 1);
 		
-		//plot.updateData(data);
+		plot.updateData(data);
 		
-		//frame.setContentPane(plot);
+		frame.setContentPane(plot);
 		frame.setVisible(true);
 		frame.setSize(1400, 1500);
 		frame.setTitle("test");

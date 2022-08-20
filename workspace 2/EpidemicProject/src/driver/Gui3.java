@@ -33,6 +33,7 @@ public class Gui3 {
 	//Simulation sim = new Simulation(new SimParam(0, 0.0, 0.0, 0.0, 0.0));
 	//Matrix matrix = new Matrix(1000, 1500, sim.getData(), 1);
 	PlotData plotData;
+	SimulationGenerator simGen;
 	
 	private int frameWidth = 1470;
 	private int frameHeight = 900;
@@ -42,6 +43,7 @@ public class Gui3 {
 		
 		sim = new Simulation(new SimParam(0, 0.0, 0.0, 0.0, 0.0), xLimit); 
 		plotData = new PlotData(0, 0, sim.getData(), 1);
+		simGen = new SimulationGenerator(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "");
 	}
 	
 	public void pageSetUp(JPanel panel, JLabel title) {
@@ -55,17 +57,24 @@ public class Gui3 {
 	public void textSetUp(JPanel panel, JTextField[] inputs, String[] names) {
 		for(int i = 0; i < inputs.length; i++) {
 			inputs[i] = new JTextField();
-			inputs[i].setBounds(frameWidth-100, 0 + (i + 1)*((frameHeight-200)/5), 100, 25);
+			inputs[i].setBounds(frameWidth-100, 0 + (i + 1)*((frameHeight-200)/12), 100, 25);
 			JLabel label = new JLabel(names[i]);
-			label.setBounds(frameWidth-100, 0 + (i + 1)*((frameHeight-200)/5)+25, 100, 25);
+			label.setBounds(frameWidth-100, 0 + (i + 1)*((frameHeight-200)/12)+25, 100, 25);
 			panel.add(inputs[i]);
 			panel.add(label);
 		}
 		inputs[0].setText("1000");
-		inputs[1].setText("5");
-		inputs[2].setText("0.1");
-		inputs[3].setText("0.9");
-		inputs[4].setText("5");
+		inputs[1].setText("2000");
+		inputs[2].setText("5");
+		inputs[3].setText("7");
+		inputs[4].setText("0.1");
+		inputs[5].setText("0.2");
+		inputs[6].setText("0.7");
+		inputs[7].setText("0.9");
+		inputs[8].setText("5");
+		inputs[9].setText("10");
+		inputs[10].setText("10");
+		inputs[11].setText("Multi-Graph Test");
 	}
 	
 	public void submitSetUp(JPanel panel, JTextField[] inputs, JButton submit) {
@@ -74,7 +83,21 @@ public class Gui3 {
 		
 		submit.addActionListener((e) -> {
 			panel.remove(plotData);
-			
+			simGen = new SimulationGenerator(
+					Integer.valueOf(inputs[0].getText()),
+					Integer.valueOf(inputs[1].getText()),
+					Double.valueOf(inputs[2].getText()),
+					Double.valueOf(inputs[3].getText()),
+					Double.valueOf(inputs[4].getText()),
+					Double.valueOf(inputs[5].getText()),
+					Double.valueOf(inputs[6].getText()),
+					Double.valueOf(inputs[7].getText()),
+					Double.valueOf(inputs[8].getText()),
+					Double.valueOf(inputs[9].getText()),
+					Integer.valueOf(inputs[10].getText()),
+					inputs[10].getText()
+			);
+			/*
 			sim = new Simulation(new SimParam(
 				Integer.valueOf(inputs[0].getText()),
 				Double.valueOf(inputs[1].getText()),
@@ -82,6 +105,7 @@ public class Gui3 {
 				Double.valueOf(inputs[3].getText()),
 				Double.valueOf(inputs[4].getText())
 			), xLimit);
+			*/
 			/*
 			sim = new Simulation(new SimParam(
 					Integer.valueOf(inputs[0].getText()),
@@ -91,16 +115,18 @@ public class Gui3 {
 					Double.valueOf(inputs[4].getText())
 			));
 			*/
-			sim.epidemic();
+			simGen.series();
+			//sim.epidemic();
 			//matrix = new Matrix(xLimit + 1, 1500, sim.getData(), 1);
 			//matrix = new Matrix(1400, 1500, sim.getData(), 1);
-			plotData = new PlotData(frameWidth/4*3, frameHeight, sim.getData(), 1);
+			plotData = new PlotData(frameWidth/4*3, frameHeight, sim.getData(), 1, simGen.getDataList());
 			
 			panel.add(plotData);
 			
 			plotData.setBounds(0, 0, frameWidth/4*3, frameHeight);
 			//matrix.setBounds(0, 0, 1400, 1500);
-			plotData.updateData(sim.getData());
+			//plotData.updateData(sim.getData());
+			plotData.updateData(simGen.getDataList().get(0));
 			
 			panel.revalidate();
 			panel.repaint();
@@ -111,8 +137,8 @@ public class Gui3 {
 		JFrame frame = new JFrame();
 		JPanel panel = new JPanel(null);
 		
-		JTextField[] inputs = new JTextField[5];
-		String[] names = {"Population", "Rate", "Killability", "Stability", "Incubation"};
+		JTextField[] inputs = new JTextField[12];
+		String[] names = {"PopulationMin", "PopulationMax", "RateMin", "RateMax", "KillabilityMin", "KillabilityMax", "StabilityMin", "StabilityMax", "IncubationMin", "IncubationMax", "NumberOfTrials", "Name"};
 		
 		JButton submit = new JButton("Submit");
 		JLabel title = new JLabel("Epidemic Simulation");
